@@ -6,12 +6,15 @@
                 <a class="navbar-brand" href="#"><img src="../assets/ieiak_logo.png" />  </a>
                 <a class="navbar-brand" href="#"><img src="../assets/uw_logo.jpg" />  </a>
             </div>
+        </div>
+
+        <div class="row row-no-gutter">
             <div class="col-12">
                 <nav class="navbar p-0 navbar-expand-lg navbar-dark ">
     
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                    </button>
+                                            <span class="navbar-toggler-icon"></span>
+                                            </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto nav-fill text-uppercase main-menu ">
                             <li class="nav-item"><a class="nav-link" href="#">Instytut</a></li>
@@ -23,21 +26,48 @@
                             <li class="nav-item"><a class="nav-link" href="#">Mapa</a></li>
                         </ul>
                     </div>
-    
                 </nav>
-    
-    
             </div>
         </div>
-        <div class='row'>
-            <div class="col-12 tags-menu">
     
-                test
-    
+        <div class='row row-no-gutter tags-menu'>
+            <div class="col-1"></div>
+            <div class="col-6">
+                <TagBrowser :tags="tags" :width="'100%'" @tagSelected="tagSelected($event)"></TagBrowser>
             </div>
+            <div class="col-5"></div>
         </div>
+    
     </div>
 </template>
+
+<script>
+import TagBrowser from "./TagBrowser.vue";
+
+export default {
+  components: { TagBrowser },
+  data: () => ({
+    tags: [
+      "religia",
+      "gender",
+      "seksualność",
+      "medycyna",
+      "ciało",
+      "dzieciństwo",
+      "internet",
+      "sztuka",
+      "technologia",
+      "literatura"
+    ]
+  }),
+  methods: {
+    tagSelected(tekst) {
+      console.log(tekst);
+    }
+  }
+};
+</script>
+
 
 <style lang="scss">
 @import "../styles/_variables";
@@ -85,8 +115,6 @@
   background-image: url("../assets/tagbar_image.png");
   background-repeat: no-repeat;
   background-position: right;
-
-  width: 70vw;
   height: 70px;
 }
 
