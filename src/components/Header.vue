@@ -10,7 +10,7 @@
 
         <div class="row row-no-gutter">
             <div class="col-12">
-                <nav class="navbar p-0 navbar-expand-lg navbar-dark ">
+                <nav class="navbar p-0 navbar-expand-lg navbar-dark col"> 
     
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                             <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,16 @@
             <div class="col-6">
                 <TagBrowser :tags="tags" :width="'100%'" @tagSelected="tagSelected($event)"></TagBrowser>
             </div>
-            <div class="col-5"></div>
+            <div class="col-5"> 
+              <div class="dropdown">
+                  <button class="dropbtn" @click="researchType =! researchType">Wybierz rodzaj badań</button>
+                    <div id="myDropdown" class="dropdown-content" v-show="researchType">
+                      <a href="#home">Studenckie</a>
+                      <a href="#about">Doktoranckie</a>
+                      <a href="#contact">Pracownicze</a>
+                    </div>
+                  </div>
+            </div>
         </div>
     
     </div>
@@ -58,7 +67,8 @@ export default {
       "sztuka",
       "technologia",
       "literatura"
-    ]
+    ],
+    researchType: false
   }),
   methods: {
     tagSelected(tekst) {
@@ -70,7 +80,8 @@ export default {
 
 
 <style lang="scss">
-@import "../styles/_variables";
+@import "../styles/_main.scss";
+
 #navbarNav {
   background-color: $nav-bg-color;
 }
@@ -91,6 +102,7 @@ export default {
   padding-left: 0;
   padding-right: 0;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .row.row-no-gutter {

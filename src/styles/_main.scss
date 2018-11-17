@@ -1,2 +1,14 @@
 @import "_variables.scss";
 @import "bootstrap/scss/bootstrap.scss";
+@import "_dropdown.scss";
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
