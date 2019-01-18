@@ -3,8 +3,15 @@ $tags-bg-color: #de3f1f;
 $dropdown-bg: #fefff9;
 $light-font-color: #d0ccc9;
 $tags-font-color: #fefefc;
+$text-darker: #3c352c;
+$text-lighter: #464646;
+$bg-grey: #ebe8dd;
 
-@import url("https://fonts.googleapis.com/css?family=Titillium+Web:600&subset=latin-ext");
+$research-yellow: #f4d81b;
+$research-blue: #00aeef;
+$research-green: #7cc576;
 
-$font-family-base: "Titillium Web";
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:300,600&amp;subset=latin-ext');
+
+$font-family-base: 'Titillium Web';
 //$font-size-base: 1.2rem;

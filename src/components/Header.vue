@@ -46,7 +46,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">En</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item nav-indicator">
                 <a class="nav-link" href="#">Mapa</a>
               </li>
             </ul>
@@ -61,12 +61,22 @@
         <TagBrowser :tags="tags" :width="'100%'" @tagSelected="tagSelected($event)"></TagBrowser>
       </div>
       <div class="col-5">
-        <div class="dropdown">
-          <button class="dropbtn" @click="researchType =! researchType">Wybierz rodzaj badań</button>
-          <div id="myDropdown" class="dropdown-content" v-show="researchType">
-            <a href="#home">Studenckie</a>
-            <a href="#about">Doktoranckie</a>
-            <a href="#contact">Pracownicze</a>
+        <div class="row h-100 ml-2">
+          <div class="dropdown my-auto ml-2">
+            <button class="dropbtn" @click="researchType =! researchType">Wybierz rodzaj badań</button>
+            <div class="dropdown-content" v-show="researchType">
+              <a @click="typeSelected('student')" href="#home">Studenckie</a>
+              <a @click="typeSelected('phd_student')" href="#about">Doktoranckie</a>
+              <a @click="typeSelected('scientist')" href="#contact">Pracownicze</a>
+            </div>
+          </div>
+          <div class="dropdown my-auto ml-4">
+            <button class="dropbtn" @click="timeRange =! timeRange">Wybierz zakres czasowy</button>
+            <div class="dropdown-content" v-show="timeRange">
+              <a href="#home">do 2018</a>
+              <a href="#about">2018</a>
+              <a href="#contact">po 2018</a>
+            </div>
           </div>
         </div>
       </div>
@@ -92,69 +102,19 @@ export default {
       "technologia",
       "literatura"
     ],
-    researchType: false
+    researchType: false,
+    timeRange: false
   }),
   methods: {
     tagSelected(tekst) {
       console.log(tekst);
+      this.$store.commit("selectTag", tekst);
+    },
+    typeSelected(tekst) {
+      console.log(tekst);
+      this.$store.commit("selectResearchType", tekst);
     }
   }
 };
 </script>
 
-
-<style lang="scss">
-@import "../styles/_main.scss";
-
-#navbarNav {
-  background-color: $nav-bg-color;
-}
-
-#navbarTags .nav-link {
-  color: $tags-font-color !important;
-}
-
-.nav-link {
-  color: $light-font-color !important;
-}
-
-.navbar-header {
-  background-color: white;
-}
-
-.container-fluid.full-width {
-  padding-left: 0;
-  padding-right: 0;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-.row.row-no-gutter {
-  margin: 0;
-}
-
-.row.row-no-gutter [class*="col-"] {
-  padding: 0;
-}
-
-#logos {
-  height: 11rem;
-}
-
-.main-menu {
-  width: 70vw;
-  height: 45px;
-}
-
-.tags-menu {
-  background-color: $tags-bg-color;
-  background-image: url("../assets/tagbar_image.png");
-  background-repeat: no-repeat;
-  background-position: right;
-  height: 70px;
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-}
-</style>

@@ -1,15 +1,16 @@
 module.exports = {
   module: {
+    mode: 'development',
     rules: [
       {
         test: /\.scss$/,
-        use: ["vue-style-loader", "css-loader", "sass-loader"]
+        use: ['vue-style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.vue$/,
-        loader: "vue-loader"
+        loader: 'vue-loader'
       }
     ]
   }
   // plugin omitted
-};
+}

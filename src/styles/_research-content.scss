@@ -1,0 +1,70 @@
+.left-bar-content {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  width: 19px;
+  height: 19px;
+  background-image: url('../assets/close.png');
+  cursor: pointer;
+}
+
+.research-badge {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.research-title {
+  font-family: 'Titillium Web';
+  font-size: 21px;
+  font-weight: 200;
+}
+
+.research-ball {
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  margin-right: 6px;
+
+  &.yellow {
+    background-color: $research-yellow;
+  }
+  &.blue {
+    background-color: $research-blue;
+  }
+  &.green {
+    background-color: $research-green;
+  }
+}
+
+.desc-fields td {
+  padding-bottom: 1.5em;
+}
+
+.desc-field-title {
+  color: $text-lighter;
+  font-size: 14px;
+  font-weight: 600;
+  width: 150px;
+}
+
+.desc-field-value {
+  color: $text-darker;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.description {
+  font-family: Verdana;
+  color: $text-lighter;
+  font-size: 14px;
+
+  &.grant {
+    font-style: italic;
+  }
+}

@@ -1,32 +1,26 @@
-@import "_variables.scss";
-
 .dropbtn {
   background-color: $dropdown-bg;
-  color: $tags-bg-color;
   text-transform: uppercase;
   min-width: 250px;
   font-family: "Titillium Web";
-  padding: 16px;
   font-size: 16px;
   border: none;
   cursor: pointer;
-  z-index: 1000 !important;
+  padding: 0.8rem;
 }
 
 .dropdown {
   display: inline-block;
   text-transform: uppercase;
-  z-index: 1000 !important;
+  z-index: 2;
 }
 
 .dropdown-content {
-  margin-top: 5px;
+  margin-top: 3px;
   position: absolute;
   background-color: $dropdown-bg;
   min-width: 250px;
-  //overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 100 !important;
 }
 
 .dropdown-content a {
@@ -35,10 +29,9 @@
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  z-index: 1000 !important;
 }
 
 .dropdown a:hover {
   background-color: #ebe8dd;
-  z-index: 1000 !important;
+  color: $tags-bg-color;
 }

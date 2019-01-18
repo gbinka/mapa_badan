@@ -1,0 +1,30 @@
+#tag-items-wrapper {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+.tag-item {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.8rem;
+
+  &.active {
+    background-color: $dropdown-bg;
+    color: $tags-bg-color;
+  }
+
+  &.tag-navigation {
+    font-size: 1.7rem;
+    background-color: transparent;
+    font-weight: 200;
+  }
+
+  &.dark {
+    color: $text-darker;
+    background-color: $bg-grey;
+  }
+
+  &.small {
+    padding: 0.4rem;
+  }
+}

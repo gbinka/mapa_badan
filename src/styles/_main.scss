@@ -1,6 +1,10 @@
-@import "_variables.scss";
-@import "bootstrap/scss/bootstrap.scss";
-@import "_dropdown.scss";
+@import '_variables.scss';
+@import 'bootstrap/scss/bootstrap.scss';
+@import '_dropdown.scss';
+@import '_header.scss';
+@import '_map-content.scss';
+@import '_research-content.scss';
+@import '_tags.scss';
 
 html,
 body,
@@ -8,7 +12,28 @@ body,
   height: 100%;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 #app {
   display: flex;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
