@@ -65,9 +65,21 @@
           <div class="dropdown my-auto ml-2">
             <button class="dropbtn" @click="researchType =! researchType">Wybierz rodzaj badań</button>
             <div class="dropdown-content" v-show="researchType">
-              <a @click="typeSelected('student')" href="#home">Studenckie</a>
-              <a @click="typeSelected('phd_student')" href="#about">Doktoranckie</a>
-              <a @click="typeSelected('scientist')" href="#contact">Pracownicze</a>
+              <a
+                @click="typeSelected('student')"
+                :class="researchTypeClass('student')"
+                href="#home"
+              >Studenckie</a>
+              <a
+                @click="typeSelected('phd_student')"
+                :class="researchTypeClass('phd_student')"
+                href="#about"
+              >Doktoranckie</a>
+              <a
+                @click="typeSelected('scientist')"
+                :class="researchTypeClass('scientist')"
+                href="#contact"
+              >Pracownicze</a>
             </div>
           </div>
           <div class="dropdown my-auto ml-4">
@@ -95,24 +107,31 @@ export default {
       "gender",
       "seksualność",
       "medycyna",
-      "ciało",
+      "etniczność",
       "dzieciństwo",
-      "internet",
+      "tożsamość",
       "sztuka",
       "technologia",
-      "literatura"
+      "polityka"
     ],
     researchType: false,
     timeRange: false
   }),
+  computed: {
+    researchTypeSelected() {
+      return this.$store.state.researchTypes;
+    }
+  },
   methods: {
     tagSelected(tekst) {
-      console.log(tekst);
       this.$store.commit("selectTag", tekst);
     },
     typeSelected(tekst) {
-      console.log(tekst);
       this.$store.commit("selectResearchType", tekst);
+    },
+    researchTypeClass(type) {
+      if (this.researchTypeSelected.find(k => k === type)) return ["active"];
+      else return [];
     }
   }
 };

@@ -79,22 +79,36 @@ export default {
       });
       this.markers.push(marker);
     },
-    filterMarkersByTag(tag) {
+    filterMarkersByTag() {
       for (let marker of this.markers) {
         let keep = false;
-        if (marker.tags.find(k => k.toLowerCase() == tag.toLowerCase())) {
-          keep = true;
+        for (let tag of this.tagsSelected) {
+          if (marker.tags.find(k => k.toLowerCase() == tag.toLowerCase())) {
+            keep = true;
+          }
         }
         marker.setVisible(keep);
       }
     },
-    filterMarkersByType(typeSelected) {
+    filterMarkersByType() {
       for (let marker of this.markers) {
         let keep = false;
-        if (marker.researchType == typeSelected) {
-          keep = true;
+        for (let typeSelected of this.researchTypesSelected) {
+          if (marker.researchType == typeSelected) {
+            keep = true;
+          }
         }
         marker.setVisible(keep);
+      }
+    },
+    showAll() {
+      if (
+        this.researchTypesSelected.length === 0 &&
+        this.researchTypesSelected.length === 0
+      ) {
+        for (let marker of this.markers) {
+          marker.setVisible(true);
+        }
       }
     }
   },
@@ -102,19 +116,21 @@ export default {
     points() {
       return this.$store.state.points;
     },
-    tagSelected() {
-      return this.$store.state.tagSelected;
+    tagsSelected() {
+      return this.$store.state.tagsSelected;
     },
-    researchTypeSelected() {
-      return this.$store.state.researchType;
+    researchTypesSelected() {
+      return this.$store.state.researchTypes;
     }
   },
   watch: {
-    tagSelected(newTag) {
-      this.filterMarkersByTag(newTag);
+    tagsSelected(newTag) {
+      if (this.tagsSelected.length === 0) this.showAll();
+      else this.filterMarkersByTag();
     },
-    researchTypeSelected(newType) {
-      this.filterMarkersByType(newType);
+    researchTypesSelected(newType) {
+      if (this.researchTypesSelected.length === 0) this.showAll();
+      else this.filterMarkersByType();
     }
   }
 };

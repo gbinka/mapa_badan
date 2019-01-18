@@ -2,7 +2,7 @@
   background-color: $dropdown-bg;
   text-transform: uppercase;
   min-width: 250px;
-  font-family: "Titillium Web";
+  font-family: 'Titillium Web';
   font-size: 16px;
   border: none;
   cursor: pointer;
@@ -29,6 +29,11 @@
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+
+  &.active {
+    background-color: #ebe8dd;
+    color: $tags-bg-color;
+  }
 }
 
 .dropdown a:hover {
