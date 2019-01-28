@@ -8,9 +8,13 @@ import { getGoogleMapsApi } from "../utils.js";
 require("../styles/map-style.js");
 
 import researchImage from "../../static/img/badania/mateusz.jpg";
-import pointBlue from "../assets/point_blue.png";
-import pointGreen from "../assets/point_green.png";
-import pointYellow from "../assets/point_yellow.png";
+import pointB from "../assets/point_blue.png";
+import pointG from "../assets/point_green.png";
+import pointY from "../assets/point_yellow.png";
+import pointBG from "../assets/point_bg.png";
+import pointBY from "../assets/point_by.png";
+import pointGY from "../assets/point_gy.png";
+import pointBGY from "../assets/point_bgy.png";
 
 export default {
   name: "Map",
@@ -35,8 +39,93 @@ export default {
       for (let point of this.points) {
         this.addMarker(point);
       }
+      var markerCluster = new MarkerClusterer(this.gmap, this.markers);
+      this.setupClusterIcon();
     },
+    setupClusterIcon() {
+      ClusterIcon.prototype.createCss = function(pos) {
+        var style = [];
+        let iconColor = [];
+        for (let marker of this.cluster_.getMarkers()) {
+          let color = "G";
+          if (marker.researchType == "student") color = "B";
+          else if (marker.researchType == "phd_student") color = "Y";
+          if (!iconColor.includes(color)) iconColor.push(color);
+        }
+        iconColor = iconColor.sort().join("");
+        let iconItem = pointB;
 
+        switch (iconColor) {
+          case "G": {
+            iconItem = pointG;
+            break;
+          }
+          case "Y": {
+            iconItem = pointY;
+            break;
+          }
+          case "BG": {
+            iconItem = pointBG;
+            break;
+          }
+          case "BY": {
+            iconItem = pointBY;
+            break;
+          }
+          case "GY": {
+            iconItem = pointGY;
+            break;
+          }
+          case "BGY": {
+            iconItem = pointBGY;
+            break;
+          }
+          default: {
+            iconItem = pointB;
+            break;
+          }
+        }
+
+        style.push("background-image:url(" + iconItem + ");");
+        var backgroundPosition = this.backgroundPosition_
+          ? this.backgroundPosition_
+          : "0 0";
+        style.push("background-position:" + backgroundPosition + ";");
+        let width = 31;
+        let height = 40;
+        if (iconColor.length == 1) {
+          width = 20;
+          height = 30;
+        }
+        style.push("padding-top:7px;");
+
+        style.push(
+          "height:" +
+            height +
+            "px; line-height:" +
+            height +
+            "px; width:" +
+            width +
+            "px; text-align:center;"
+        );
+
+        var txtColor = this.textColor_ ? this.textColor_ : "white";
+        var txtSize = this.textSize_ ? this.textSize_ : 13;
+
+        style.push(
+          "cursor:pointer; top:" +
+            pos.y +
+            "px; left:" +
+            pos.x +
+            "px; color:" +
+            txtColor +
+            "; position:absolute; font-size:" +
+            txtSize +
+            "px; font-family:Arial,sans-serif; font-weight:bold"
+        );
+        return style.join("");
+      };
+    },
     addMarker(point) {
       let contentString =
         "<div id='infobox-content' class='infobox-container'>" +
@@ -51,11 +140,11 @@ export default {
         "</span>" +
         "</p></div>";
 
-      let currentIcon = pointGreen;
+      let currentIcon = pointG;
       if (point.researchType == "student") {
-        currentIcon = pointBlue;
+        currentIcon = pointB;
       } else if (point.researchType == "phd_student") {
-        currentIcon = pointYellow;
+        currentIcon = pointY;
       }
       let marker = new google.maps.Marker({
         position: point.placeCoords,
@@ -79,32 +168,42 @@ export default {
       });
       this.markers.push(marker);
     },
-    filterMarkersByTag() {
-      for (let marker of this.markers) {
-        let keep = false;
-        for (let tag of this.tagsSelected) {
-          if (marker.tags.find(k => k.toLowerCase() == tag.toLowerCase())) {
-            keep = true;
-          }
+    filterMarkers() {
+      if (this.tagsSelected.length === 0 || this.tagsSelected.length === 0)
+        this.showAll();
+      else {
+        for (let marker of this.markers) {
+          let keepMarker = false;
+          keepMarker = this._filterTags(keepMarker, marker);
+          keepMarker = this._filterTypes(keepMarker, marker);
+
+          marker.setVisible(keepMarker);
         }
-        marker.setVisible(keep);
       }
     },
-    filterMarkersByType() {
-      for (let marker of this.markers) {
-        let keep = false;
-        for (let typeSelected of this.researchTypesSelected) {
-          if (marker.researchType == typeSelected) {
-            keep = true;
-          }
+    _filterTags(keep, marker) {
+      if (!this.tagsSelected.length) return keep;
+      for (let tag of this.tagsSelected) {
+        if (marker.tags.find(k => k.toLowerCase() == tag.toLowerCase())) {
+          keep = true;
         }
-        marker.setVisible(keep);
       }
+      return keep;
+    },
+    _filterTypes(keep, marker) {
+      if (!this.researchTypesSelected.length) return keep;
+      let keepType = false;
+      for (let typeSelected of this.researchTypesSelected) {
+        if (marker.researchType == typeSelected) {
+          keepType = true;
+        }
+      }
+      return keep && keepType;
     },
     showAll() {
       if (
         this.researchTypesSelected.length === 0 &&
-        this.researchTypesSelected.length === 0
+        this.tagsSelected.length === 0
       ) {
         for (let marker of this.markers) {
           marker.setVisible(true);
@@ -125,12 +224,10 @@ export default {
   },
   watch: {
     tagsSelected(newTag) {
-      if (this.tagsSelected.length === 0) this.showAll();
-      else this.filterMarkersByTag();
+      this.filterMarkers();
     },
     researchTypesSelected(newType) {
-      if (this.researchTypesSelected.length === 0) this.showAll();
-      else this.filterMarkersByType();
+      this.filterMarkers();
     }
   }
 };
