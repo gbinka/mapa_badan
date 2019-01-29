@@ -146,11 +146,15 @@ export default {
       } else if (point.researchType == "phd_student") {
         currentIcon = pointY;
       }
+      let iconImage = {
+        url: currentIcon,
+        anchor: new google.maps.Point(16, 30)
+      };
       let marker = new google.maps.Marker({
         position: point.placeCoords,
         map: this.gmap,
         title: point.title,
-        icon: currentIcon,
+        icon: iconImage,
         tags: point.tags,
         researchType: point.researchType
       });
@@ -166,6 +170,11 @@ export default {
         self.lastMarker = marker;
         self.$emit("markerClicked", point);
       });
+
+      google.maps.event.addListener(marker.infowindow, "domready", function() {
+        console.log(marker.infowindow);
+      });
+
       this.markers.push(marker);
     },
     filterMarkers() {

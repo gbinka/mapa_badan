@@ -11,10 +11,10 @@
           <span class="research-badge">{{researchTypeMap[researchData.researchType]['text']}}</span>
         </div>
         <div class="mt-4 research-title">{{researchData.title}}</div>
-        <div id="tag-items-wrapper" class="d-flex flex-row my-auto">
+        <div id class="my-3">
           <div
             v-for="tag in researchData.tags"
-            class="mr-3 my-4 tag-item dark small"
+            class="mr-3 my-1 tag-item dark small d-inline-block"
             :key="tag"
           >{{tag}}</div>
         </div>
@@ -30,6 +30,7 @@
         <div class="my-3 description">{{researchData.description}}</div>
         <div class="mt-5 mb-3 desc-field-title">Informacje o grancie:</div>
         <div class="mb-5 description grant">{{researchData.grant}}</div>
+        <div class="my-3">&nbsp;</div>
       </div>
     </div>
   </div>

@@ -63,7 +63,11 @@
       <div class="col-5">
         <div class="row h-100 ml-2">
           <div class="dropdown my-auto ml-2">
-            <button class="dropbtn" @click="researchType =! researchType">Wybierz rodzaj badań</button>
+            <button
+              class="dropbtn"
+              :class="{active:researchType}"
+              @click="researchType =! researchType"
+            >Wybierz rodzaj badań</button>
             <div class="dropdown-content" v-show="researchType">
               <a
                 @click="typeSelected('student')"
@@ -83,7 +87,11 @@
             </div>
           </div>
           <div class="dropdown my-auto ml-4">
-            <button class="dropbtn" @click="timeRange =! timeRange">Wybierz zakres czasowy</button>
+            <button
+              class="dropbtn"
+              :class="{active:timeRange}"
+              @click="timeRange =! timeRange"
+            >Wybierz zakres czasowy</button>
             <div class="dropdown-content" v-show="timeRange">
               <a href="#home">do 2018</a>
               <a href="#about">2018</a>

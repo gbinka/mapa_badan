@@ -9,6 +9,15 @@
   padding: 0.8rem;
 }
 
+.dropbtn::after {
+  padding-left: 8px;
+  content: url('../assets/dropdown_arrow.png');
+}
+.active.dropbtn::after {
+  padding-left: 8px;
+  content: url('../assets/dropdown_arrow_active.png');
+}
+
 .dropdown {
   display: inline-block;
   text-transform: uppercase;
