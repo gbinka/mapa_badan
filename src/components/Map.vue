@@ -12,8 +12,11 @@ import pointB from "../assets/point_blue.png";
 import pointG from "../assets/point_green.png";
 import pointY from "../assets/point_yellow.png";
 import pointBG from "../assets/point_bg.png";
+import pointBB from "../assets/point_bb.png";
 import pointBY from "../assets/point_by.png";
+import pointGG from "../assets/point_gg.png";
 import pointGY from "../assets/point_gy.png";
+import pointYY from "../assets/point_yy.png";
 import pointBGY from "../assets/point_bgy.png";
 
 export default {
@@ -39,19 +42,52 @@ export default {
       for (let point of this.points) {
         this.addMarker(point);
       }
-      var markerCluster = new MarkerClusterer(this.gmap, this.markers);
+
+      var markerCluster = new MarkerClusterer(this.gmap, this.markers, {
+        zoomOnClick: true
+      });
+      MarkerClusterer.prototype.isZoomOnClick = function() {
+        if (this.map.getZoom() > 10) return false;
+        return this.zoomOnClick_;
+      };
+      markerCluster.addListener("clusterclick", function(event) {
+        if (this.map.getZoom() > 10) {
+          let fullContent = [];
+
+          for (let marker of event.markers_) {
+            fullContent.push("<b>" + marker.infowindow.content + "</b>");
+          }
+          console.log(fullContent);
+          let infowindow = new google.maps.InfoWindow({
+            content: fullContent.join("<hr>")
+          });
+          infowindow.setPosition(event.getCenter());
+          if (infowindow.view) {
+            infowindow.close();
+          } else {
+            infowindow.open(this.map);
+          }
+        }
+      });
       this.setupClusterIcon();
     },
     setupClusterIcon() {
       ClusterIcon.prototype.createCss = function(pos) {
         var style = [];
         let iconColor = [];
+        let markerCount = 0;
         for (let marker of this.cluster_.getMarkers()) {
           let color = "G";
           if (marker.researchType == "student") color = "B";
           else if (marker.researchType == "phd_student") color = "Y";
-          if (!iconColor.includes(color)) iconColor.push(color);
+          iconColor.push(color);
+          markerCount += 1;
         }
+        let iconColorDistinct = [...new Set(iconColor)];
+        if (iconColorDistinct.length == 1 && iconColor.length > 1)
+          iconColor = iconColorDistinct.concat(iconColorDistinct);
+        else iconColor = [...new Set(iconColor)];
+
         iconColor = iconColor.sort().join("");
         let iconItem = pointB;
 
@@ -62,6 +98,18 @@ export default {
           }
           case "Y": {
             iconItem = pointY;
+            break;
+          }
+          case "BB": {
+            iconItem = pointBB;
+            break;
+          }
+          case "GG": {
+            iconItem = pointGG;
+            break;
+          }
+          case "YY": {
+            iconItem = pointYY;
             break;
           }
           case "BG": {
@@ -91,22 +139,28 @@ export default {
           ? this.backgroundPosition_
           : "0 0";
         style.push("background-position:" + backgroundPosition + ";");
-        let width = 31;
-        let height = 40;
+        let width = 54;
+        let height = 68;
         if (iconColor.length == 1) {
-          width = 20;
-          height = 30;
+          width = 54;
+          height = 68;
         }
-        style.push("padding-top:7px;");
+        let textLeft = 36;
+        if (markerCount > 9) textLeft = 32;
+
+        const anchor = [8, textLeft];
 
         style.push(
           "height:" +
             height +
-            "px; line-height:" +
-            height +
-            "px; width:" +
+            "px; padding-top:" +
+            anchor[0] +
+            "px;" +
+            " width:" +
             width +
-            "px; text-align:center;"
+            "px; padding-left:" +
+            anchor[1] +
+            "px;"
         );
 
         var txtColor = this.textColor_ ? this.textColor_ : "white";
@@ -127,18 +181,7 @@ export default {
       };
     },
     addMarker(point) {
-      let contentString =
-        "<div id='infobox-content' class='infobox-container'>" +
-        "<img src='" +
-        researchImage +
-        "' class='infobox-img' />" +
-        "<p class='infobox-text'>" +
-        point.title +
-        "<br/>" +
-        "<span style='color: #464646;'> " +
-        point.author +
-        "</span>" +
-        "</p></div>";
+      let contentString = this.prepareContentString(point);
 
       let currentIcon = pointG;
       if (point.researchType == "student") {
@@ -163,12 +206,7 @@ export default {
       });
       let self = this;
       marker.addListener("click", function() {
-        if (Object.keys(self.lastMarker).length) {
-          self.lastMarker.infowindow.close();
-        }
-        marker.infowindow.open(this.gmap, marker);
-        self.lastMarker = marker;
-        self.$emit("markerClicked", point);
+        self.openInfoWindow(marker, point);
       });
 
       google.maps.event.addListener(marker.infowindow, "domready", function() {
@@ -218,6 +256,29 @@ export default {
           marker.setVisible(true);
         }
       }
+    },
+    prepareContentString(point) {
+      return (
+        "<div id='infobox-content' class='infobox-container'>" +
+        "<img src='" +
+        researchImage +
+        "' class='infobox-img' />" +
+        "<p class='infobox-text'>" +
+        point.title +
+        "<br/>" +
+        "<span style='color: #464646;'> " +
+        point.author +
+        "</span>" +
+        "</p></div>"
+      );
+    },
+    openInfoWindow(marker, point) {
+      if (Object.keys(this.lastMarker).length) {
+        this.lastMarker.infowindow.close();
+      }
+      marker.infowindow.open(this.gmap, marker);
+      this.lastMarker = marker;
+      this.$emit("markerClicked", point);
     }
   },
   computed: {

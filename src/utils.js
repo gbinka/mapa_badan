@@ -14,12 +14,12 @@ export function loadScript(src, id) {
 export function getGoogleMapsApi() {
   return Promise.resolve(
     loadScript(
+      'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js'
+    ),
+    loadScript(
       'https://maps.googleapis.com/maps/api/js?key=' +
         'AIzaSyBv6RqWimofK-k6xeoddqpvYvCFMnN27Fg',
       'google-mapsapi'
-    ),
-    loadScript(
-      'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js'
     )
   )
 }

@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="col-3" v-if="showPanel">
+    <div class="col-3 h-100" v-if="showPanel">
       <ResearchDetails :researchData="panelData" @leftBarClosed="showPanel=false;"></ResearchDetails>
     </div>
     <div :class="panels['right']">
