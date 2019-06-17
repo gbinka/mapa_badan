@@ -12,6 +12,11 @@ export default new Router({
       path: '/',
       name: 'index',
       component: Main
+    },
+    {
+      path: '/badanie/:slug',
+      name: 'Szczegóły badania',
+      component: Main
     }
   ]
 })

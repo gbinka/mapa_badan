@@ -1,3 +1,5 @@
+import API_KEY from './keys.js'
+
 export function loadScript(src, id) {
   return new Promise((resolve, reject) => {
     const fjs = document.getElementsByTagName('script')[0]
@@ -17,8 +19,7 @@ export function getGoogleMapsApi() {
       'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js'
     ),
     loadScript(
-      'https://maps.googleapis.com/maps/api/js?key=' +
-        'AIzaSyBv6RqWimofK-k6xeoddqpvYvCFMnN27Fg',
+      'https://maps.googleapis.com/maps/api/js?key=' + API_KEY,
       'google-mapsapi'
     )
   )
